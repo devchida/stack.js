@@ -25,7 +25,7 @@ const runStack = {
     },
     stack: (stack) => {
         for (data in stack) {
-            cjs.build(stack[data])
+            runStack.build(stack[data])
         }
     },
     rebuild: (data) => {
@@ -34,12 +34,20 @@ const runStack = {
         oldBlock == null ? console.log('Error: Block ID does not exist') : null
         oldBlock.parentNode.removeChild(oldBlock)
         // remove block if component is null 
-        data.comp == null ? null : newBlock = cjs.build(data)
+        data.comp == null ? null : newBlock = runStack.build(data)
+    },
+    stylesheet: (css) => {
+        let style = document.createElement('link');
+        style.rel = 'stylesheet';
+        style.href = css;
+        document.head.appendChild(style);
+    },
+    template:(tpl) => {
+        let template = document.createElement('script');
+        template.src = tpl;
+        document.head.appendChild(template);
     },
     root: () => {
-        body = document.getElementsByTagName('body')[0]
-        container = document.createElement('div');
-        container.setAttribute('id', 'root')
-        body.appendChild(container)
+        document.body.setAttribute("id","root")
     }
 }
